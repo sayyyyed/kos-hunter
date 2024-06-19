@@ -25,8 +25,9 @@ return new class extends Migration
             $table->string('tipe_kamarmandi');
             $table->string('dapur');
             $table->string('lain');
+            $table->string('image_url')->nullable();
             $table->timestamps();
-            $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 

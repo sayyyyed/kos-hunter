@@ -48,7 +48,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Admin</span></a>
+                    <span>Properti</span></a>
             </li>
 
             <!-- Divider -->
@@ -123,7 +123,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{asset('assetadmin/img/undraw_profile.svg')}}">
                             </a>
@@ -146,45 +146,60 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">List Admin</h1>
+                    <h1 class="h3 mb-2 text-gray-800">List Properti</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Data Admin</h6>
-                            <a href="{{{ route('admin.create') }}}" class="btn btn-primary ml-auto">Tambah Admin</a>
+                            <h6 class="m-0 font-weight-bold text-primary">Data Properti</h6>
+                            <a href="#" data-toggle="modal" data-target="#tambahPropertiModal" class="btn btn-primary ml-auto">Tambah Properti</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
+                                            <th>Gambar</th>
                                             <th>Nama</th>
-                                            <th>Email</th>
-                                            <th>Password</th>
-                                            <th>No Telepon</th>
-                                            <th>Aksi</th>
+                                            <th>Tipe</th>
+                                            <th>Harga</th>
+                                            <th>Alamat</th>
+                                            <th>Wifi</th>
+                                            <th>Jumlah Kamar</th>
+                                            <th>Tipe Kamar Mandi</th>
+                                            <th>Dapur</th>
+                                            <th>Lain-lain</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
-                                        $no=1;
+                                        $no = 1;
+                                        $admin_id = auth()->id();
+                                        $properti = App\Models\Properti::where('admin_id', $admin_id)->get();
                                     @endphp
-                                    @foreach ($admin as $admin)
+
+
+                                    @foreach ($properti as $properti)
                                         <tr>
-                                            <td>{{ $no++}}</td>
-                                            <td>{{ $admin->nama}}</td>
-                                            <td>{{ $admin->email}}</td>
-                                            <td>{{ $admin->password}}</td>
-                                            <td>{{ $admin->no_telp}}</td>
+                                            {{-- <td>{{ $no++}}</td> --}}
+                                            <td><img src="{{ asset($properti->image_url) }}" alt="Property Image" class="img-thumbnail"></td>
+
+                                            <td>{{ $properti->nama}}</td>
+                                            <td>{{ $properti->tipe}}</td>
+                                            <td>{{ $properti->harga}}</td>
+                                            <td>{{ $properti->alamat}}</td>
+                                            <td>{{ $properti->wifi}}</td>
+                                            <td>{{ $properti->jumlah_kamar}}</td>
+                                            <td>{{ $properti->tipe_kamarmandi}}</td>
+                                            <td>{{ $properti->dapur}}</td>
+                                            <td>{{ $properti->lain}}</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                <a href="#" class="btn btn-outline-warning mr-1">Edit</a>
-                                                <form action="{{ route('admin.destroy', $admin->id )}}" method="POST">
+                                                    <a href="#" data-toggle="modal" data-target="#editPropertiModal" class="btn btn-outline-primary">Edit</a>
+                                                <form action="{{ route('admin.properti.destroy', $properti->id )}}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                <button class="btn btn-outline-danger" type="submit"  onclick="return confirm('Apakah Anda Ingin Menghapus Data Admin {{$admin->nama}}');">Delete</button>
+                                                <button class="btn btn-outline-danger" type="submit"  onclick="return confirm('Apakah Anda Ingin Menghapus Data properti {{$properti->nama}}');">Delete</button>
                                                 </form>
                                                 </div>
                                             </td>
@@ -237,11 +252,185 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+
+                    <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
                 </div>
             </div>
         </div>
     </div>
+
+<!-- Tambah Properti Modal (nama kos, tipe (kos / kontrakan), harga, alamat, wifi (ada/tidak), jumlah kamar, tipe kamar mandi (luar / dalam), dapur (ada / tidak), lain-lain (textarea)) -->
+<div class="modal fade" id="tambahPropertiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Properti</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="{{ route('admin.properti.store') }}" method="POST" enctype="multipart/form-data">
+
+                    @csrf
+
+                    @auth
+                    <input type="hidden" name="admin_id" value="{{ Auth::user()->id }}">
+                    @endauth
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" class="form-control-file" id="image" name="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" id="nama" name="nama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipe">Tipe</label>
+                        <select class="form-control" id="tipe" name="tipe" required>
+                            <option value="kos">Kos</option>
+                            <option value="kontrakan">Kontrakan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="harga">Harga</label>
+                        <input type="number" class="form-control" id="harga" name="harga" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wifi">Wifi</label>
+                        <select class="form-control" id="wifi" name="wifi" required>
+                            <option value="ada">Ada</option>
+                            <option value="tidak">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_kamar">Jumlah Kamar</label>
+                        <input type="number" class="form-control" id="jumlah_kamar" name="jumlah_kamar" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipe_kamarmandi">Tipe Kamar Mandi</label>
+                        <select class="form-control" id="tipe_kamarmandi" name="tipe_kamarmandi" required>
+                            <option value="luar">Luar</option>
+                            <option value="dalam">Dalam</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dapur">Dapur</label>
+                        <select class="form-control" id="dapur" name="dapur" required>
+                            <option value="ada">Ada</option>
+                            <option value="tidak">Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lain">Lain-lain</label>
+                        <textarea class="form-control" id="lain" name="lain" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tambah Properti</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Properti Modal -->
+<div class="modal fade" id="editPropertiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Properti</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if(isset($properti->id))
+                <form action="{{ route('admin.properti.update', $properti->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="file" class="form-control-file" id="image" name="image">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nama">Nama</label>
+                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $properti->nama }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipe">Tipe</label>
+                        <select class="form-control" id="tipe" name="tipe" required>
+                            <option value="kos" @if($properti->tipe == 'kos') selected @endif>Kos</option>
+                            <option value="kontrakan" @if($properti->tipe == 'kontrakan') selected @endif>Kontrakan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="harga">Harga</label>
+                        <input type="number" class="form-control" id="harga" name="harga" value="{{ $properti->harga }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $properti->alamat }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wifi">Wifi</label>
+                        <select class="form-control" id="wifi" name="wifi" required>
+                            <option value="ada" @if($properti->wifi == 'ada') selected @endif>Ada</option>
+                            <option value="tidak" @if($properti->wifi == 'tidak') selected @endif>Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_kamar">Jumlah Kamar</label>
+                        <input type="number" class="form-control" id="jumlah_kamar" name="jumlah_kamar" value="{{ $properti->jumlah_kamar }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipe_kamarmandi">Tipe Kamar Mandi</label>
+                        <select class="form-control" id="tipe_kamarmandi" name="tipe_kamarmandi" required>
+                            <option value="luar" @if($properti->tipe_kamarmandi == 'luar') selected @endif>Luar</option>
+                            <option value="dalam" @if($properti->tipe_kamarmandi == 'dalam') selected @endif>Dalam</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dapur">Dapur</label>
+                        <select class="form-control" id="dapur" name="dapur" required>
+                            <option value="ada" @if($properti->dapur == 'ada') selected @endif>Ada</option>
+                            <option value="tidak" @if($properti->dapur == 'tidak') selected @endif>Tidak</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lain">Lain-lain</label>
+                        <textarea class="form-control" id="lain" name="lain" required>{{ $properti->lain }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Properti</button>
+                </form>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('assetadmin/vendor/jquery/jquery.min.js')}}"></script>

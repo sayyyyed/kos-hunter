@@ -1,3 +1,4 @@
+
 <x-app-layout>
     <x-slot name="header">
         <h2
@@ -236,7 +237,7 @@
                                     </div>
                                     <div
                                         class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
-                                      
+
 
                                         <div class="flex items-center w-full space-x-3 md:w-auto">
                                             <button id="lokasiButton" data-dropdown-toggle="lokasiDropdown"
@@ -290,36 +291,36 @@
                     </section>
                     <br><br><!-- card -->
                     <div class="grid gap-6 md:grid-cols-4">
-                        <!-- grid starts here -->
 
-                        <!-- Grid starts here -->
-                        <a href=""
-                            class="block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
-                            <div class="relative w-full h-48 overflow-hidden">
-                                <img class="w-full h-full object-cover"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg"
-                                    alt="Sunset in the mountains">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
-                                <button
-                                    class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Book</button>
-                            </div>
-                            <div class="px-6 pt-4">
-                                <div class="font-black text-xl text-gray-800">The Coldest Sunset</div>
-                                <p class="text-gray-700 text-base mb-2 font-black">
-                                    Kerto
-                                </p>
-                                <p class="text-gray-700 text-base">
-                                    Rp500.000/bulan
-                                </p>
-                            </div>
-                            <div class="px-6 pt-4 pb-2">
-                                <span
-                                    class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Kontrakan</span>
-                                <span
-                                    class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">sisa
-                                    8 kamar</span>
-                            </div>
-                        </a>
+                            @foreach($propertis as $properti)
+                            <a href="#"
+                            class="card block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
+                                <div class="relative w-full h-48 overflow-hidden">
+                                    <img class="w-full h-full object-cover"
+                                        src="{{ asset($properti->image_url ?? 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg') }}"
+                                        alt="{{ $properti->nama }}">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
+                                    <button class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Book</button>
+                                </div>
+
+                                <div class="px-6 pt-4">
+                                    <div class="font-black text-xl text-gray-800">{{ $properti->nama }}</div>
+                                    <p class="text-gray-700 text-base mb-2 font-black">
+                                        {{ $properti->lokasi }}
+                                    </p>
+                                    <p class="text-gray-700 text-base">
+                                        Rp{{ number_format($properti->harga, 2) }}/bulan
+                                    </p>
+                                </div>
+                                <div class="px-6 pt-4 pb-2">
+                                    <span
+                                        class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ $properti->tipe }}</span>
+                                    <span
+                                        class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sisa
+                                        {{ $properti->jumlah_kamar }} kamar</span>
+                                </div>
+                            </a>
+                            @endforeach
 
                     </div>
 
@@ -328,7 +329,7 @@
                 </div>
             </div>
             <!-- tambahkan paginasi bawaan laravel -->
-           
+
 
             <!-- create a long horizontal line to separate sections -->
             <hr class="my-12 border-gray-200 dark:border-gray-700">
@@ -424,8 +425,72 @@
             </footer>
         </div>
 
+        <div class="modal" id="bookingConfirmationModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Konfirmasi Booking</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin membooking kos ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                        <button type="button" class="btn btn-primary" id="confirmBookingButton">Ya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- footer -->
 
     </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Show modal when a card is clicked
+            $(".card").click(function() {
+                $("#bookingConfirmationModal").modal("show");
+            });
+
+            // Handle booking confirmation
+            $("#confirmBookingButton").click(function() {
+                // Perform booking process
+                fetch('{{ route('admin.booking.store') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        properti_id: '{{ $properti->id }}', // Use the appropriate properti ID
+                        user_id: '{{ Auth::id() }}', // Use the authenticated user's ID
+                        jumlah: 1 // Set the number of bookings (e.g., 1 for single booking)
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Booking successful
+                        alert("Booking confirmed!");
+                        $("#bookingConfirmationModal").modal("hide");
+                    } else {
+                        // Booking failed
+                        alert("Failed to confirm booking. Please try again.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred. Please try again.");
+                });
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </x-app-layout>
+
