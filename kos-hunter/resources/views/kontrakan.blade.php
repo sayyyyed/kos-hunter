@@ -151,7 +151,7 @@
                                 span.className =
                                     'inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
                             }
-                        })
+                        })3
                         .catch(error => {
                             console.error('Error fetching room count:', error);
                             span.textContent = `Sisa ${initialRooms} kamar`;
