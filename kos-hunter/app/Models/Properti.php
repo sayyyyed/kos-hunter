@@ -13,6 +13,7 @@ class Properti extends Model
         'tipe',
         'harga',
         'alamat',
+        'lokasi',
         'wifi',
         'jumlah_kamar',
         'tipe_kamarmandi',
@@ -20,4 +21,19 @@ class Properti extends Model
         'lain',
         'image_url'
     ];
+
+    public function images()
+    {
+        return $this->hasMany(PropertyImage::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
+    public function calculateAvailableRooms()
+    {
+        return $this->jumlah_kamar - $this->bookings()->sum('jumlah');
+    }
 }

@@ -3,7 +3,7 @@
     <x-slot name="header">
         <h2
             class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-            {{ __('Insert Kos Name') }}
+            {{ $properti->tipe }} {{  $properti->nama  }}
         </h2>
 
         <h2
@@ -15,55 +15,28 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
             <div id="default-carousel" class="relative w-full" data-carousel="slide">
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                    <!-- Item 1 -->
+                    @foreach($properti->images as $index => $image)
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Gideon_Ernst_Freiherr_von_Laudon.jpg/800px-Gideon_Ernst_Freiherr_von_Laudon.jpg"
+                        <img src="{{ asset($image->image_url) }}"
                             class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent">
                         </div>
                         <div class="absolute bottom-0 left-0 p-4 text-white">
-                            <h1 class="text-xl font-bold">Kos Joyogrand Jayamulia</h1>
-                            <p class="text -sm">Rp.500.000/perbulan</p>
+                            <h1 class="text-xl font-bold">{{ $properti->nama }}</h1>
+                            <p class="text-sm">Rp{{ number_format($properti->harga, 0) }}/perbulan</p>
                         </div>
-
                     </div>
-                    <!-- Item 2 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Klara_von_Hagen.jpg/800px-Klara_von_Hagen.jpg"
-                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 3 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Gideon_Ernst_Freiherr_von_Laudon.jpg/800px-Gideon_Ernst_Freiherr_von_Laudon.jpg"
-                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 4 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Klara_von_Hagen.jpg/800px-Klara_von_Hagen.jpg"
-                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
-                    <!-- Item 5 -->
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="/docs/images/carousel/carousel-5.svg"
-                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                    </div>
+                    @endforeach
                 </div>
                 <!-- Slider indicators -->
                 <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
-                        data-carousel-slide-to="0"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2"
-                        data-carousel-slide-to="1"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3"
-                        data-carousel-slide-to="2"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4"
-                        data-carousel-slide-to="3"></button>
-                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5"
-                        data-carousel-slide-to="4"></button>
+                    @foreach($properti->images as $index => $image)
+                    <button type="button" class="w-3 h-3 rounded-full" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"
+                        data-carousel-slide-to="{{ $index }}"></button>
+                    @endforeach
                 </div>
                 <!-- Slider controls -->
                 <button type="button"
@@ -95,44 +68,73 @@
             </div>
 
             <div class="container mx-auto px-4 py-8">
-              
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-sm">Nama Properti</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->nama }}</p>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-sm">Nama Properti</h2>
-                        <p class="text-2xl font-semibold mb-6">Kos Sabilutaubah</p>
+                    <h2 class="text-sm">Narahubung</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->narahubung ?? 'Tidak tersedia' }}</p>
 
-                        <h2 class="text-sm">Narahubung</h2>
-                        <p class="text-2xl font-semibold mb-6">1231231231</p>
+                    <h2 class="text-sm">Tipe</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->tipe }}</p>
 
-                        <h2 class="text-sm">Tipe</h2>
-                        <p class="text-2xl font-semibold mb-6">Rumah</p>
+                    <h2 class="text-sm">Harga</h2>
+                    <p class="text-2xl font-semibold mb-6">Rp{{ number_format($properti->harga, 0) }}</p>
 
-                        <h2 class="text-sm">Harga</h2>
-                        <p class="text-2xl font-semibold mb-6">Rp1.000.000.000</p>
+                    <h2 class="text-sm">Alamat</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->alamat }}</p>
 
-                        <h2 class="text-sm">Alamat</h2>
-                        <p class="text-2xl font-semibold mb-6">Jl. Contoh Alamat No. 1</p>
+                    <h2 class="text-sm">Wifi</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->wifi }}</p>
 
-                        <h2 class="text-sm">Wifi</h2>
-                        <p class="text-2xl font-semibold mb-6">Tersedia</p>
+                    <h2 class="text-sm">Jumlah Kamar</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->jumlah_kamar }}</p>
 
-                        <h2 class="text-sm">Jumlah Kamar</h2>
-                        <p class="text-2xl font-semibold mb-6">3</p>
+                    <h2 class="text-sm">Tipe Kamar Mandi</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->tipe_kamarmandi }}</p>
 
-                        <h2 class="text-sm">Tipe Kamar Mandi</h2>
-                        <p class="text-2xl font-semibold mb-6">Dalam</p>
+                    <h2 class="text-sm">Dapur</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->dapur }}</p>
 
-                        <h2 class="text-sm">Dapur</h2>
-                        <p class="text-2xl font-semibold mb-6">Tersedia</p>
-
-                        <h2 class="text-sm">Lain-lain</h2>
-                        <p class="text-2xl font-semibold mb-6">Kolam Renang</p>
-                    </div>
-
-          
+                    <h2 class="text-sm">Lain-lain</h2>
+                    <p class="text-2xl font-semibold mb-6">{{ $properti->lain }}</p>
+                </div>
             </div>
 
+            @php
+                        $availableRooms = $properti->jumlah_kamar - $properti->bookings()->sum('jumlah');
+                        $isAvailable = $availableRooms > 0;
+                    @endphp
+                    <div class="col-span-2 mt-6">
+                        <button id="bookButton"
+                            class="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 {{ !$isAvailable ? 'opacity-50 cursor-not-allowed' : '' }}"
+                            {{ !$isAvailable ? 'disabled' : '' }}
+                            onclick="openBookingModal()">
+                            {{ $isAvailable ? 'Book Now' : 'Kamar telah habis' }}
+                        </button>
+                    </div>
 
+                    <!-- Booking confirmation modal -->
+            <div id="bookingModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+                <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3 text-center">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900">Confirm Booking</h3>
+                        <div class="mt-2 px-7 py-3">
+                            <p class="text-sm text-gray-500">
+                                Are you sure you want to book this {{ $properti->tipe }}?
+                            </p>
+                        </div>
+                        <div class="items-center px-4 py-3">
+                            <button id="confirmBooking" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                Yes, Book Now
+                            </button>
+                            <button onclick="closeBookingModal()" class="mt-3 px-4 py-2 bg-gray-300 text-gray-800 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
             <!-- create a long horizontal line to separate sections -->
@@ -235,5 +237,59 @@
 
     </div>
     </div>
+
+    <script>
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        document.getElementById('confirmBooking').addEventListener('click', function() {
+            fetch('{{ route('booking.store') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    properti_id: {{ $properti->id }},
+                    jumlah: {{ $properti->tipe === 'kos' ? 1 : $properti->jumlah_kamar }}
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Redirect to booking page
+                    window.location.href = '{{ route('booking-saya') }}';
+                } else {
+                    alert('Booking failed: ' + data.message);
+                }
+            })
+            .catch(async (error) => {
+                console.error('Error:', error);
+                if (error instanceof Response) {
+                    try {
+                        const errorData = await error.json();
+                        alert('Booking failed: ' + (errorData.message || 'Unknown error'));
+                    } catch (e) {
+                        alert('An unexpected error occurred. Please try again.');
+                    }
+                } else {
+                    alert('An unexpected error occurred. Please try again.');
+                }
+            });
+
+            closeBookingModal();
+        });
+    </script>
 
 </x-app-layout>

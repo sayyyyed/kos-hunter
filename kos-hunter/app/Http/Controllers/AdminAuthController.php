@@ -22,11 +22,12 @@ class AdminAuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->intended(route('admin-kos.index'));
+            $request->session()->regenerate();
+            return redirect()->intended(route('admin.properti.index'));
         }
 
-        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
-            'email' => 'These credentials do not match our records.',
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
         ]);
     }
 
@@ -34,7 +35,7 @@ class AdminAuthController extends Controller
     {
         Auth::guard('admin')->logout();
 
-        return redirect()->route('admin.login');
+        return redirect('/');
     }
 
     public function showRegisterForm()

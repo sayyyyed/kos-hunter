@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2
@@ -8,7 +7,7 @@
         <h2
             class="text-center mb-4 text-4xl font-light leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
             {{ __('Cari kos/kontrakan impianmu di sini') }}
-            </h2>
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -20,61 +19,36 @@
                     <!-- something here -->
 
                     <!-- carousel -->
+                    <!-- carousel -->
                     <div id="default-carousel" class="relative w-full" data-carousel="slide">
                         <!-- Carousel wrapper -->
                         <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                            <!-- Item 1 -->
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Gideon_Ernst_Freiherr_von_Laudon.jpg/800px-Gideon_Ernst_Freiherr_von_Laudon.jpg"
-                                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                    alt="...">
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent">
+                            @foreach ($propertis as $index => $properti)
+                                <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                    <a href="{{ route('properti.show', $properti->id) }}" class="block w-full h-full">
+                                        <img src="{{ asset($properti->images->first()->image_url ?? 'path/to/default/image.jpg') }}"
+                                            class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 object-cover"
+                                            alt="{{ $properti->nama }}">
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent">
+                                        </div>
+                                        <div class="absolute bottom-0 left-0 p-4 text-white">
+                                            <h1 class="text-xl font-bold">{{ $properti->nama }}</h1>
+                                            <p class="text-sm">Rp{{ number_format($properti->harga, 0) }}/perbulan</p>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="absolute bottom-0 left-0 p-4 text-white">
-                                    <h1 class="text-xl font-bold">Kos Joyogrand Jayamulia</h1>
-                                    <p class="text -sm">Rp.500.000/perbulan</p>
-                                </div>
-
-                            </div>
-                            <!-- Item 2 -->
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Klara_von_Hagen.jpg/800px-Klara_von_Hagen.jpg"
-                                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                    alt="...">
-                            </div>
-                            <!-- Item 3 -->
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Gideon_Ernst_Freiherr_von_Laudon.jpg/800px-Gideon_Ernst_Freiherr_von_Laudon.jpg"
-                                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                    alt="...">
-                            </div>
-                            <!-- Item 4 -->
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Klara_von_Hagen.jpg/800px-Klara_von_Hagen.jpg"
-                                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                    alt="...">
-                            </div>
-                            <!-- Item 5 -->
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="/docs/images/carousel/carousel-5.svg"
-                                    class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                                    alt="...">
-                            </div>
+                            @endforeach
                         </div>
                         <!-- Slider indicators -->
                         <div
                             class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
-                                data-carousel-slide-to="0"></button>
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2"
-                                data-carousel-slide-to="1"></button>
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3"
-                                data-carousel-slide-to="2"></button>
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4"
-                                data-carousel-slide-to="3"></button>
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5"
-                                data-carousel-slide-to="4"></button>
+                            @foreach ($propertis as $index => $properti)
+                                <button type="button" class="w-3 h-3 rounded-full"
+                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}"
+                                    data-carousel-slide-to="{{ $index }}"></button>
+                            @endforeach
                         </div>
                         <!-- Slider controls -->
                         <button type="button"
@@ -106,99 +80,114 @@
                     </div>
                     <hr class="my-12 border-gray-200 dark:border-gray-700">
 
-                <!-- services -->
-                <section class="py-8">
-                <h2
-                    class="text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                    {{ __('Layanan Kami') }}
-                </h2>
-                    <div class="container mx-auto">
-                        <div class="flex flex-wrap justify-between">
-                            <div class="w-full">
-                                <div class="flex justify-between items-center mb-4">
-                                    <div>
-                                        <!-- <h2 class="text-2xl font-semibold">Our Services</h2> -->
+                    <!-- services -->
+                    <section class="py-8">
+                        <h2
+                            class="text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                            {{ __('Layanan Kami') }}
+                        </h2>
+                        <div class="container mx-auto">
+                            <div class="flex flex-wrap justify-between">
+                                <div class="w-full">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <div>
+                                            <!-- <h2 class="text-2xl font-semibold">Our Services</h2> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap -mx-4">
+                                <div class="w-full md:w-1/3 px-4 mb-6">
+                                    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+                                        <div class="flex items-center mb-4">
+                                            <div class="text-blue-500">
+                                                <span class="bi bi-cart text-2xl"></span>
+                                            </div>
+                                            <div class="ml-4 flex items-center">
+                                                <svg class="w-8 h-8 mr-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor">
+                                                    <path
+                                                        d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM13 19H18V9.15745L12 3.7029L6 9.15745V19H11V13H13V19Z">
+                                                    </path>
+                                                </svg>
+                                                <h2 class="text-3xl font-semibold">Kos</h2>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <p class="text-gray-700 dark:text-white">
+                                                Menyediakan rumah kos dengan harga terjangkau dan fasilitas yang
+                                                lengkap. Insyaallah harga kos cocok untuk kalangan mahasiswa.
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-blue-500 flex items-center">Read more
+                                                <span class="bi bi-chevron-right ml-2"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-1/3 px-4 mb-6">
+                                    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+                                        <div class="flex items-center mb-4">
+                                            <div class="text-blue-500">
+                                                <span class="bi bi-calendar4-week text-2xl"></span>
+                                            </div>
+                                            <div class="ml-4 flex">
+                                                <svg class="w-8 h-8 mr-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor">
+                                                    <path
+                                                        d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM6 19H18V9.15745L12 3.7029L6 9.15745V19ZM8.59117 13.8089C8.52937 13.5486 8.49666 13.277 8.49666 12.9978C8.49666 12.7186 8.52936 12.4471 8.59115 12.1868L7.60001 11.6145L8.59952 9.88333L9.59136 10.456C9.98427 10.0843 10.4633 9.80273 10.9954 9.64436V8.49998H12.9945V9.64436C13.5266 9.80272 14.0056 10.0843 14.3985 10.4559L15.3904 9.88323L16.39 11.6144L15.3987 12.1867C15.4605 12.447 15.4932 12.7186 15.4932 12.9978C15.4932 13.277 15.4605 13.5485 15.3988 13.8088L16.39 14.381L15.3905 16.1122L14.3986 15.5396C14.0057 15.9112 13.5267 16.1928 12.9946 16.3512V17.4956H10.9955V16.3512C10.4634 16.1929 9.98437 15.9114 9.59144 15.5397L8.59957 16.1123L7.60001 14.3811L8.59117 13.8089ZM11.995 14.4971C12.823 14.4971 13.4942 13.8258 13.4942 12.9978C13.4942 12.1698 12.823 11.4985 11.995 11.4985C11.1669 11.4985 10.4957 12.1698 10.4957 12.9978C10.4957 13.8258 11.1669 14.4971 11.995 14.4971Z">
+                                                    </path>
+                                                </svg>
+                                                <h2 class="text-3xl font-semibold">Kontrakan</h2>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <p class="text-gray-700 dark:text-white">
+                                                Menyediakan rumah kontrakan dengan harga terjangkau dan fasilitas yang
+                                                lengkap. Insyaallah harga kontrakan cocok untuk kalangan mahasiswa juga.
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-blue-500 flex items-center">Read more
+                                                <span class="bi bi-chevron-right ml-2"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full md:w-1/3 px-4 mb-6">
+                                    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+                                        <div class="flex items-center mb-4">
+                                            <div class="text-blue-500">
+                                                <span class="bi bi-card-checklist text-2xl"></span>
+                                            </div>
+                                            <div class="ml-4 flex">
+                                                <svg class="w-8 h-8 mr-4" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor">
+                                                    <path
+                                                        d="M19.0049 2C20.1068 2 21 2.89821 21 3.9908V20.0092C21 21.1087 20.1074 22 19.0049 22H3V2H19.0049ZM7 4H5V20H7V4ZM19 4H9V20H19V4ZM14 8L18 12H15V16H13V12H10L14 8ZM24 12V16H22V12H24ZM24 6V10H22V6H24Z">
+                                                    </path>
+                                                </svg>
+                                                <h2 class="text-3xl font-semibold">Booking dulu</h2>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <p class="text-gray-700 dark:text-white">
+                                                Sebelum pergi ke Malang, alangkah baiknya mahasiwa survey kos dan
+                                                mem-bookingnya agar tidak missing-out kos/kontrakan terjangkau sebelum
+                                                diserbu maba
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-blue-500 flex items-center">Read more
+                                                <span class="bi bi-chevron-right ml-2"></span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-wrap -mx-4">
-                            <div class="w-full md:w-1/3 px-4 mb-6">
-                                <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-                                    <div class="flex items-center mb-4">
-                                        <div class="text-blue-500">
-                                            <span class="bi bi-cart text-2xl"></span>
-                                        </div>
-                                        <div class="ml-4 flex items-center">
-                                        <svg class="w-8 h-8 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path
-                                                d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM13 19H18V9.15745L12 3.7029L6 9.15745V19H11V13H13V19Z">
-                                            </path>
-                                        </svg>
-                                        <h2 class="text-3xl font-semibold">Kos</h2>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <p class="text-gray-700 dark:text-white">
-                                            Menyediakan rumah kos dengan harga terjangkau dan fasilitas yang lengkap. Insyaallah harga kos cocok untuk kalangan mahasiswa.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-blue-500 flex items-center">Read more
-                                            <span class="bi bi-chevron-right ml-2"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-1/3 px-4 mb-6">
-                                <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-                                    <div class="flex items-center mb-4">
-                                        <div class="text-blue-500">
-                                            <span class="bi bi-calendar4-week text-2xl"></span>
-                                        </div>
-                                        <div class="ml-4 flex">
-                                            <svg class="w-8 h-8 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM6 19H18V9.15745L12 3.7029L6 9.15745V19ZM8.59117 13.8089C8.52937 13.5486 8.49666 13.277 8.49666 12.9978C8.49666 12.7186 8.52936 12.4471 8.59115 12.1868L7.60001 11.6145L8.59952 9.88333L9.59136 10.456C9.98427 10.0843 10.4633 9.80273 10.9954 9.64436V8.49998H12.9945V9.64436C13.5266 9.80272 14.0056 10.0843 14.3985 10.4559L15.3904 9.88323L16.39 11.6144L15.3987 12.1867C15.4605 12.447 15.4932 12.7186 15.4932 12.9978C15.4932 13.277 15.4605 13.5485 15.3988 13.8088L16.39 14.381L15.3905 16.1122L14.3986 15.5396C14.0057 15.9112 13.5267 16.1928 12.9946 16.3512V17.4956H10.9955V16.3512C10.4634 16.1929 9.98437 15.9114 9.59144 15.5397L8.59957 16.1123L7.60001 14.3811L8.59117 13.8089ZM11.995 14.4971C12.823 14.4971 13.4942 13.8258 13.4942 12.9978C13.4942 12.1698 12.823 11.4985 11.995 11.4985C11.1669 11.4985 10.4957 12.1698 10.4957 12.9978C10.4957 13.8258 11.1669 14.4971 11.995 14.4971Z"></path></svg>
-                                            <h2 class="text-3xl font-semibold">Kontrakan</h2>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <p class="text-gray-700 dark:text-white">
-                                            Menyediakan rumah kontrakan dengan harga terjangkau dan fasilitas yang lengkap. Insyaallah harga kontrakan cocok untuk kalangan mahasiswa juga.
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-blue-500 flex items-center">Read more
-                                            <span class="bi bi-chevron-right ml-2"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-1/3 px-4 mb-6">
-                                <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
-                                    <div class="flex items-center mb-4">
-                                        <div class="text-blue-500">
-                                            <span class="bi bi-card-checklist text-2xl"></span>
-                                        </div>
-                                        <div class="ml-4 flex">
-                                        <svg class="w-8 h-8 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.0049 2C20.1068 2 21 2.89821 21 3.9908V20.0092C21 21.1087 20.1074 22 19.0049 22H3V2H19.0049ZM7 4H5V20H7V4ZM19 4H9V20H19V4ZM14 8L18 12H15V16H13V12H10L14 8ZM24 12V16H22V12H24ZM24 6V10H22V6H24Z"></path></svg>
-                                            <h2 class="text-3xl font-semibold">Booking dulu</h2>
-                                        </div>
-                                    </div>
-                                    <div class="mb-4">
-                                        <p class="text-gray-700 dark:text-white">
-                                           Sebelum pergi ke Malang, alangkah baiknya mahasiwa survey kos dan mem-bookingnya agar tidak missing-out kos/kontrakan terjangkau sebelum  diserbu maba
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <a href="#" class="text-blue-500 flex items-center">Read more
-                                            <span class="bi bi-chevron-right ml-2"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </section>
 
 
 
@@ -206,6 +195,7 @@
                     <br><br>
                     <h2
                         class="text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+
                         {{ __('Kos/kontrakan terkini') }}
                     </h2>
                     <section class="bg-gray-50 dark:bg-gray-900 mt-8 flex items-center">
@@ -215,7 +205,7 @@
                                 <div
                                     class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
                                     <div class="w-full md:w-1/2">
-                                        <form class="flex items-center">
+                                        <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
                                             <label for="simple-search" class="sr-only">Search</label>
                                             <div class="relative w-full">
                                                 <div
@@ -229,9 +219,9 @@
                                                             clip-rule="evenodd" />
                                                     </svg>
                                                 </div>
-                                                <input type="text" id="simple-search"
+                                                <input type="text" id="simple-search" name="search"
                                                     class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                    placeholder="Search" required="">
+                                                    placeholder="Search" value="{{ request('search') }}">
                                             </div>
                                         </form>
                                     </div>
@@ -239,89 +229,21 @@
                                         class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
 
 
-                                        <div class="flex items-center w-full space-x-3 md:w-auto">
-                                            <button id="lokasiButton" data-dropdown-toggle="lokasiDropdown"
-                                                class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                                                type="button">
-                                                <svg class="-ml-1 mr-1.5 w-5 h-5" fill="currentColor"
-                                                    viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
-                                                    aria-hidden="true">
-                                                    <path clip-rule="evenodd" fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                                </svg>
-                                                Lokasi
-                                            </button>
-                                            <div id="lokasiDropdown"
-                                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                                                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="lokasiButton">
-                                                    <li>
-                                                        <a href="#"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Kos</a>
-                                                    </li>
-                                                </ul>
-                                                <div class="py-1">
-                                                    <a href="#"
-                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                        Kerto</a>
-                                                </div>
-                                                <div class="py-1">
-                                                    <a href="#"
-                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                        Gasek</a>
-                                                </div>
-                                                <div class="py-1">
-                                                    <a href="#"
-                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                        Sigura-gura</a>
-                                                </div>
-                                                <div class="py-1">
-                                                    <a href="#"
-                                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                                        Kalijaga</a>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
-                    <br><br><!-- card -->
-                    <div class="grid gap-6 md:grid-cols-4">
+                    <br><br>
+                    <!-- card -->
+                    <!-- card -->
+<div class="grid gap-6 md:grid-cols-3">
+    @include('partials.properti_cards')
+</div>
 
-                            @foreach($propertis as $properti)
-                            <a href="#"
-                            class="card block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
-                                <div class="relative w-full h-48 overflow-hidden">
-                                    <img class="w-full h-full object-cover"
-                                        src="{{ asset($properti->image_url ?? 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg') }}"
-                                        alt="{{ $properti->nama }}">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
-                                    <button class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Book</button>
-                                </div>
-
-                                <div class="px-6 pt-4">
-                                    <div class="font-black text-xl text-gray-800">{{ $properti->nama }}</div>
-                                    <p class="text-gray-700 text-base mb-2 font-black">
-                                        {{ $properti->lokasi }}
-                                    </p>
-                                    <p class="text-gray-700 text-base">
-                                        Rp{{ number_format($properti->harga, 2) }}/bulan
-                                    </p>
-                                </div>
-                                <div class="px-6 pt-4 pb-2">
-                                    <span
-                                        class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ $properti->tipe }}</span>
-                                    <span
-                                        class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sisa
-                                        {{ $properti->jumlah_kamar }} kamar</span>
-                                </div>
-                            </a>
-                            @endforeach
-
+                    <!-- Pagination -->
+                    <div class="mt-4">
+                        {{ $propertis->appends(request()->query())->links() }}
                     </div>
 
 
@@ -368,48 +290,48 @@
                                 d="M20.0721 31.8357C20.0744 31.8352 20.0739 31.8332 20.0717 31.8337C19.6252 31.925 19.1172 32.0097 18.5581 32.0721C15.638 32.3978 12.7174 31.4643 10.5286 29.5059C8.33986 27.5474 7.09347 24.7495 7.09348 21.814L7.09347 21.0222L1.59546 21.3602C4.1488 28.8989 12.1189 33.5118 20.0411 31.8421C20.0449 31.8413 20.0582 31.8387 20.0721 31.8357Z"
                                 fill="url(#paint8_linear_11430_22515)" />
                             <defs>
-                                <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532" x2="23.9577"
-                                    y2="12.9901" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532"
+                                    x2="23.9577" y2="12.9901" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837" x2="19.7797"
-                                    y2="2.33321" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837"
+                                    x2="19.7797" y2="2.33321" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045" x2="4.42432"
-                                    y2="5.99375" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045"
+                                    x2="4.42432" y2="5.99375" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
-                                <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846" x2="27.2866"
-                                    y2="25.8192" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846"
+                                    x2="27.2866" y2="25.8192" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661" x2="15.9825"
-                                    y2="24.1181" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661"
+                                    x2="15.9825" y2="24.1181" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189" x2="31.7569"
-                                    y2="10.6178" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189"
+                                    x2="31.7569" y2="10.6178" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
-                                <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427" x2="3.14054"
-                                    y2="20.4898" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427"
+                                    x2="3.14054" y2="20.4898" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271" x2="10.4278"
-                                    y2="11.488" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271"
+                                    x2="10.4278" y2="11.488" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399" x2="14.0824"
-                                    y2="31.9579" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399"
+                                    x2="14.0824" y2="31.9579" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
@@ -459,38 +381,112 @@
             $("#confirmBookingButton").click(function() {
                 // Perform booking process
                 fetch('{{ route('admin.booking.store') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        properti_id: '{{ $properti->id }}', // Use the appropriate properti ID
-                        user_id: '{{ Auth::id() }}', // Use the authenticated user's ID
-                        jumlah: 1 // Set the number of bookings (e.g., 1 for single booking)
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            properti_id: '{{ $properti->id }}', // Use the appropriate properti ID
+                            user_id: '{{ Auth::id() }}', // Use the authenticated user's ID
+                            jumlah: 1 // Set the number of bookings (e.g., 1 for single booking)
+                        })
                     })
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Booking successful
-                        alert("Booking confirmed!");
-                        $("#bookingConfirmationModal").modal("hide");
-                    } else {
-                        // Booking failed
-                        alert("Failed to confirm booking. Please try again.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("An error occurred. Please try again.");
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            // Booking successful
+                            alert("Booking confirmed!");
+                            $("#bookingConfirmationModal").modal("hide");
+                        } else {
+                            // Booking failed
+                            alert("Failed to confirm booking. Please try again.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("An error occurred. Please try again.");
+                    });
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateRoomStatus() {
+                const statusSpans = document.querySelectorAll('[id^="room-status-"]');
+                statusSpans.forEach(span => {
+                    const propertiId = span.dataset.propertiId;
+                    const initialRooms = parseInt(span.dataset.initialRooms);
+
+                    fetch(`/api/properti/${propertiId}/room-count`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const availableRooms = data.available_rooms;
+                            if (availableRooms <= 0) {
+                                span.textContent = 'Sold Out';
+                                span.className =
+                                    'inline-block bg-red-200 text-red-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
+                            } else {
+                                span.textContent = `Sisa ${availableRooms} kamar`;
+                                span.className =
+                                    'inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching room count:', error);
+                            span.textContent = `Sisa ${initialRooms} kamar`;
+                            span.className =
+                                'inline-block bg-yellow-200 text-yellow-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
+                        });
+                });
+            }
+
+            // Update initially and then every 30 seconds
+            updateRoomStatus();
+            setInterval(updateRoomStatus, 30000);
         });
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let scrollPosition = sessionStorage.getItem('scrollPosition');
+            if (scrollPosition) {
+                window.scrollTo(0, parseInt(scrollPosition));
+                sessionStorage.removeItem('scrollPosition');
+            }
+        });
+    </script>
+<script>
+    $(document).ready(function() {
+        let typingTimer;
+        const doneTypingInterval = 300; // milliseconds
 
+        $('#simple-search').on('input', function() {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(performSearch, doneTypingInterval);
+        });
+
+        function performSearch() {
+            let query = $('#simple-search').val();
+            $.ajax({
+                url: '{{ route('dashboard') }}',
+                method: 'GET',
+                data: { search: query },
+                success: function(response) {
+                    // Parse the HTML response and update only the properti cards
+                    let $newContent = $(response).find('.grid.gap-6.md\\:grid-cols-4');
+                    $('.grid.gap-6.md\\:grid-cols-4').html($newContent.html());
+                    updateRoomStatus();
+                }
+            });
+        }
+
+        function updateRoomStatus() {
+            // Your existing updateRoomStatus function here
+        }
+    });
+</script>
 
 </x-app-layout>
-

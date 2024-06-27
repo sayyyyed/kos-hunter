@@ -12,204 +12,27 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:bg-gray-900 dark:text-white">
+                @foreach($propertisGroupedByLocation as $location => $propertis)
+                    <div class="p-6 text-gray-900 dark:bg-gray-900 dark:text-white">
+                        <h2 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-lg lg:text-3xl dark:text-white">
+                            {{ __('Daerah ' . $location) }}
+                        </h2>
+                        <hr class="my-12 border-gray-200 dark:border-gray-700">
 
+                        Properti di {{ $location }}: {{ $propertis->count() }}
 
-                    <!-- something here -->
-
-                    <!-- carousel -->
-                 
-                    <!-- pencarian -->
-                    <br><br>
-                    <h2
-                        class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-lg lg:text-3xl dark:text-white">
-                        {{ __('Daerah Kerto') }}
-                    </h2>
-                    <hr class="my-12 border-gray-200 dark:border-gray-700">
-
-                    <div class="grid gap-6 md:grid-cols-4">
-                        <!-- grid starts here -->
-                       
-                        <!-- Grid starts here -->
-                        <a href=""
-                            class="block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
-                            <div class="relative w-full h-48 overflow-hidden">
-                                <img class="w-full h-full object-cover"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg"
-                                    alt="Sunset in the mountains">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
-                                <button
-                                    class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Kos</button>
+                        @if($propertis->isNotEmpty())
+                            <div class="grid gap-6 md:grid-cols-4">
+                                @foreach($propertis as $properti)
+                                    @include('partials.properti_card', ['properti' => $properti])
+                                @endforeach
                             </div>
-                            <div class="px-6 pt-4">
-                                <div class="font-black text-xl text-gray-800">The Coldest Sunset</div>
-                                <p class="text-gray-700 text-base mb-2 font-black">
-                                    Kerto
-                                </p>
-                                <p class="text-gray-700 text-base">
-                                    Rp500.000/bulan
-                                </p>
-                            </div>
-                            <div class="px-6 pt-4 pb-2">
-                                <span
-                                    class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Kontrakan</span>
-                                <span
-                                    class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">sisa
-                                    8 kamar</span>
-                            </div>
-                        </a>
-
+                        @else
+                            <p>No properties found in this area.</p>
+                        @endif
                     </div>
-
-
-
-                </div>
-
-
-                <div class="p-6 text-gray-900 dark:bg-gray-900 dark:text-white">
-
-                    <br><br>
-                    <h2
-                        class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-lg lg:text-3xl dark:text-white">
-                        {{ __('Daerah Gasek') }}
-                    </h2>
-                    <hr class="my-12 border-gray-200 dark:border-gray-700">
-
-                    <div class="grid gap-6 md:grid-cols-4">
-                        <!-- grid starts here -->
-                       
-                        <!-- Grid starts here -->
-                        <a href=""
-                            class="block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
-                            <div class="relative w-full h-48 overflow-hidden">
-                                <img class="w-full h-full object-cover"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg"
-                                    alt="Sunset in the mountains">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
-                                <button
-                                    class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Kos</button>
-                            </div>
-                            <div class="px-6 pt-4">
-                                <div class="font-black text-xl text-gray-800">The Coldest Sunset</div>
-                                <p class="text-gray-700 text-base mb-2 font-black">
-                                    Kerto
-                                </p>
-                                <p class="text-gray-700 text-base">
-                                    Rp500.000/bulan
-                                </p>
-                            </div>
-                            <div class="px-6 pt-4 pb-2">
-                                <span
-                                    class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Kontrakan</span>
-                                <span
-                                    class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">sisa
-                                    8 kamar</span>
-                            </div>
-                        </a>
-
-                    </div>
-
-
-
-                </div>
-
-                <div class="p-6 text-gray-900 dark:bg-gray-900 dark:text-white">
-
-                    <br><br>
-                    <h2
-                        class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-lg lg:text-3xl dark:text-white">
-                        {{ __('Daerah Sigura-gura') }}
-                    </h2>
-                    <hr class="my-12 border-gray-200 dark:border-gray-700">
-
-                    <div class="grid gap-6 md:grid-cols-4">
-                        <!-- grid starts here -->
-                       
-                        <!-- Grid starts here -->
-                        <a href=""
-                            class="block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
-                            <div class="relative w-full h-48 overflow-hidden">
-                                <img class="w-full h-full object-cover"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg"
-                                    alt="Sunset in the mountains">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
-                                <button
-                                    class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Kos</button>
-                            </div>
-                            <div class="px-6 pt-4">
-                                <div class="font-black text-xl text-gray-800">The Coldest Sunset</div>
-                                <p class="text-gray-700 text-base mb-2 font-black">
-                                    Kerto
-                                </p>
-                                <p class="text-gray-700 text-base">
-                                    Rp500.000/bulan
-                                </p>
-                            </div>
-                            <div class="px-6 pt-4 pb-2">
-                                <span
-                                    class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Kontrakan</span>
-                                <span
-                                    class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">sisa
-                                    8 kamar</span>
-                            </div>
-                        </a>
-
-                    </div>
-
-
-
-                </div>
-
-                <div class="p-6 text-gray-900 dark:bg-gray-900 dark:text-white">
-
-                    <br><br>
-                    <h2
-                        class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-lg lg:text-3xl dark:text-white">
-                        {{ __('Daerah Kalijaga') }}
-                    </h2>
-                    <hr class="my-12 border-gray-200 dark:border-gray-700">
-
-                    <div class="grid gap-6 md:grid-cols-4">
-                        <!-- grid starts here -->
-                       
-                        <!-- Grid starts here -->
-                        <a href=""
-                            class="block max-w-full rounded overflow-hidden shadow-lg mx-auto bg-white shadow no-underline">
-                            <div class="relative w-full h-48 overflow-hidden">
-                                <img class="w-full h-full object-cover"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Salman_Rushdie%2C_2024.jpg"
-                                    alt="Sunset in the mountains">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black opacity-50"></div>
-                                <button
-                                    class="absolute bottom-4 left-4 bg-blue-700 text-white px-2 py-2 text-sm rounded">Kos</button>
-                            </div>
-                            <div class="px-6 pt-4">
-                                <div class="font-black text-xl text-gray-800">The Coldest Sunset</div>
-                                <p class="text-gray-700 text-base mb-2 font-black">
-                                    Kerto
-                                </p>
-                                <p class="text-gray-700 text-base">
-                                    Rp500.000/bulan
-                                </p>
-                            </div>
-                            <div class="px-6 pt-4 pb-2">
-                                <span
-                                    class="inline-block bg-blue-200 text-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Kontrakan</span>
-                                <span
-                                    class="inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">sisa
-                                    8 kamar</span>
-                            </div>
-                        </a>
-
-                    </div>
-
-
-
-                </div>
+                @endforeach
             </div>
-
-            
-
             <!-- create a long horizontal line to separate sections -->
             <hr class="my-12 border-gray-200 dark:border-gray-700">
 
@@ -247,48 +70,48 @@
                                 d="M20.0721 31.8357C20.0744 31.8352 20.0739 31.8332 20.0717 31.8337C19.6252 31.925 19.1172 32.0097 18.5581 32.0721C15.638 32.3978 12.7174 31.4643 10.5286 29.5059C8.33986 27.5474 7.09347 24.7495 7.09348 21.814L7.09347 21.0222L1.59546 21.3602C4.1488 28.8989 12.1189 33.5118 20.0411 31.8421C20.0449 31.8413 20.0582 31.8387 20.0721 31.8357Z"
                                 fill="url(#paint8_linear_11430_22515)" />
                             <defs>
-                                <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532" x2="23.9577"
-                                    y2="12.9901" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532"
+                                    x2="23.9577" y2="12.9901" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837" x2="19.7797"
-                                    y2="2.33321" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837"
+                                    x2="19.7797" y2="2.33321" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045" x2="4.42432"
-                                    y2="5.99375" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045"
+                                    x2="4.42432" y2="5.99375" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
-                                <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846" x2="27.2866"
-                                    y2="25.8192" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846"
+                                    x2="27.2866" y2="25.8192" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661" x2="15.9825"
-                                    y2="24.1181" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661"
+                                    x2="15.9825" y2="24.1181" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189" x2="31.7569"
-                                    y2="10.6178" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189"
+                                    x2="31.7569" y2="10.6178" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
-                                <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427" x2="3.14054"
-                                    y2="20.4898" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427"
+                                    x2="3.14054" y2="20.4898" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271" x2="10.4278"
-                                    y2="11.488" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271"
+                                    x2="10.4278" y2="11.488" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399" x2="14.0824"
-                                    y2="31.9579" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399"
+                                    x2="14.0824" y2="31.9579" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
@@ -307,4 +130,40 @@
 
     </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateRoomStatus() {
+                const statusSpans = document.querySelectorAll('[id^="room-status-"]');
+                statusSpans.forEach(span => {
+                    const propertiId = span.dataset.propertiId;
+                    const initialRooms = parseInt(span.dataset.initialRooms);
+
+                    fetch(`/api/properti/${propertiId}/room-count`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const availableRooms = data.available_rooms;
+                            if (availableRooms <= 0) {
+                                span.textContent = 'Sold Out';
+                                span.className =
+                                    'inline-block bg-red-200 text-red-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
+                            } else {
+                                span.textContent = `Sisa ${availableRooms} kamar`;
+                                span.className =
+                                    'inline-block bg-green-200 text-green-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching room count:', error);
+                            span.textContent = `Sisa ${initialRooms} kamar`;
+                            span.className =
+                                'inline-block bg-yellow-200 text-yellow-900 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2';
+                        });
+                });
+            }
+
+            // Update initially and then every 30 seconds
+            updateRoomStatus();
+            setInterval(updateRoomStatus, 30000);
+        });
+    </script>
 </x-app-layout>

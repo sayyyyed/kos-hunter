@@ -9,60 +9,61 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-
-            
-
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-16 py-3">
-                    <span class="sr-only">Image</span>
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Nama Kos
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Alamat
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Jumlah Kamar
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Harga
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Aksi
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td class="p-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Edi_Rama_%282024-02-29%29.jpg" class="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch">
-                </td>
-                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                    Kos Campur Sabilutaubah
-                </td>
-                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                   Kerto
-                </td>
-                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                   1
-                </td>
-                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                    $599
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
-                </td>
-            </tr>
-           
-           
-        </tbody>
-    </table>
-</div>
+            @if (Auth::user() && Auth::user()->bookings && Auth::user()->bookings->count() > 0)
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-16 py-3">
+                                    <span class="sr-only">Image</span>
+                                </th>
+                                <th scope="col" class="px-6 py-3">Nama Kos</th>
+                                <th scope="col" class="px-6 py-3">Alamat</th>
+                                <th scope="col" class="px-6 py-3">Jumlah Kamar</th>
+                                <th scope="col" class="px-6 py-3">Harga</th>
+                                <th scope="col" class="px-6 py-3">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Auth::user()->bookings as $booking)
+                                <tr
+                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <td class="p-4">
+                                        <img src="{{ $booking->properti->images->first()->image_url ?? 'https://via.placeholder.com/150' }}"
+                                            class="w-16 md:w-32 max-w-full max-h-full"
+                                            alt="{{ $booking->properti->nama }}">
+                                    </td>
+                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                        {{ $booking->properti->nama }}
+                                    </td>
+                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                        {{ $booking->properti->alamat }}
+                                    </td>
+                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                        {{ $booking->jumlah }}
+                                    </td>
+                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                        Rp{{ number_format($booking->properti->harga * $booking->jumlah, 0) }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <form action="{{ route('booking.destroy', $booking->id) }}" method="POST" class="delete-booking-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900 dark:text-gray-100 text-center">
+                        <p class="text-xl font-semibold">Anda belum memiliki booking apapun</p>
+                    </div>
+                </div>
+            @endif
 
 
 
@@ -103,48 +104,48 @@
                                 d="M20.0721 31.8357C20.0744 31.8352 20.0739 31.8332 20.0717 31.8337C19.6252 31.925 19.1172 32.0097 18.5581 32.0721C15.638 32.3978 12.7174 31.4643 10.5286 29.5059C8.33986 27.5474 7.09347 24.7495 7.09348 21.814L7.09347 21.0222L1.59546 21.3602C4.1488 28.8989 12.1189 33.5118 20.0411 31.8421C20.0449 31.8413 20.0582 31.8387 20.0721 31.8357Z"
                                 fill="url(#paint8_linear_11430_22515)" />
                             <defs>
-                                <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532" x2="23.9577"
-                                    y2="12.9901" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint0_linear_11430_22515" x1="20.8102" y1="23.9532"
+                                    x2="23.9577" y2="12.9901" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837" x2="19.7797"
-                                    y2="2.33321" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint1_linear_11430_22515" x1="28.0593" y1="10.5837"
+                                    x2="19.7797" y2="2.33321" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045" x2="4.42432"
-                                    y2="5.99375" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint2_linear_11430_22515" x1="16.9145" y1="5.2045"
+                                    x2="4.42432" y2="5.99375" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
-                                <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846" x2="27.2866"
-                                    y2="25.8192" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint3_linear_11430_22515" x1="16.0698" y1="28.846"
+                                    x2="27.2866" y2="25.8192" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661" x2="15.9825"
-                                    y2="24.1181" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint4_linear_11430_22515" x1="8.01881" y1="15.8661"
+                                    x2="15.9825" y2="24.1181" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189" x2="31.7569"
-                                    y2="10.6178" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint5_linear_11430_22515" x1="26.2004" y1="21.8189"
+                                    x2="31.7569" y2="10.6178" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
-                                <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427" x2="3.14054"
-                                    y2="20.4898" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint6_linear_11430_22515" x1="6.11387" y1="9.31427"
+                                    x2="3.14054" y2="20.4898" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1C64F2" />
                                     <stop offset="1" stop-color="#0092FF" />
                                 </linearGradient>
-                                <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271" x2="10.4278"
-                                    y2="11.488" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint7_linear_11430_22515" x1="21.2932" y1="8.78271"
+                                    x2="10.4278" y2="11.488" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#1724C9" />
                                     <stop offset="1" stop-color="#1C64F2" />
                                 </linearGradient>
-                                <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399" x2="14.0824"
-                                    y2="31.9579" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint8_linear_11430_22515" x1="7.15667" y1="21.5399"
+                                    x2="14.0824" y2="31.9579" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#0092FF" />
                                     <stop offset="1" stop-color="#45B2FF" />
                                 </linearGradient>
@@ -163,5 +164,85 @@
 
     </div>
     </div>
-    
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
+
 </x-app-layout>
+
+<script>
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `max-w-xs bg-white border rounded-md shadow-lg dark:bg-gray-800 dark:border-gray-700 ${
+        type === 'success' ? 'border-green-500' : 'border-red-500'
+    } transition duration-150 ease-in-out`;
+    toast.role = 'alert';
+
+    toast.innerHTML = `
+        <div class="flex p-4">
+            <div class="flex-shrink-0">
+                <svg class="h-4 w-4 mt-0.5 ${
+                    type === 'success' ? 'text-green-500' : 'text-red-500'
+                }" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm text-gray-700 dark:text-gray-400">
+                    ${message}
+                </p>
+            </div>
+        </div>
+    `;
+
+    const toastContainer = document.getElementById('toast-container');
+    toastContainer.appendChild(toast);
+
+    // Animate the toast
+    setTimeout(() => {
+        toast.classList.add('transform', 'translate-y-0', 'opacity-100');
+        toast.classList.remove('translate-y-full', 'opacity-0');
+    }, 100);
+
+    // Remove the toast after 3 seconds
+    setTimeout(() => {
+        toast.classList.add('transform', 'translate-y-full', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        setTimeout(() => {
+            toastContainer.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('.delete-booking-form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    // Remove the row from the table
+                    this.closest('tr').remove();
+                } else {
+                    showToast(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('An error occurred while processing your request.', 'error');
+            });
+        });
+    });
+});
+</script>
+
+
