@@ -68,41 +68,41 @@
             </div>
 
             <div class="container mx-auto px-4 py-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-sm">Nama Properti</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->nama }}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg shadow-md  dark:bg-gray-800">
+                    <h2 class="text-sm dark:text-white">Nama Properti</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->nama }}</p>
 
-                    <h2 class="text-sm">Narahubung</h2>
-<p class="text-2xl font-semibold mb-6">
+                    <h2 class="text-sm dark:text-white">Narahubung</h2>
+<p class="text-2xl font-semibold mb-6 dark:text-white">
     @if($properti->admin)
         {{ $properti->admin->no_telp ?: 'Nomor tidak tersedia' }}
     @else
         Admin tidak ditemukan
     @endif
 </p>
-                    <h2 class="text-sm">Tipe</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->tipe }}</p>
+                    <h2 class="text-sm dark:text-white">Tipe</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->tipe }}</p>
 
-                    <h2 class="text-sm">Harga</h2>
-                    <p class="text-2xl font-semibold mb-6">Rp{{ number_format($properti->harga, 0) }}</p>
+                    <h2 class="text-sm dark:text-white">Harga</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">Rp{{ number_format($properti->harga, 0) }}</p>
 
-                    <h2 class="text-sm">Alamat</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->alamat }}</p>
+                    <h2 class="text-sm dark:text-white">Alamat</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->alamat }}</p>
 
-                    <h2 class="text-sm">Wifi</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->wifi }}</p>
+                    <h2 class="text-sm dark:text-white">Wifi</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->wifi }}</p>
 
-                    <h2 class="text-sm">Jumlah Kamar</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->jumlah_kamar }}</p>
+                    <h2 class="text-sm dark:text-white">Jumlah Kamar</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->jumlah_kamar }}</p>
 
-                    <h2 class="text-sm">Tipe Kamar Mandi</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->tipe_kamarmandi }}</p>
+                    <h2 class="text-sm dark:text-white">Tipe Kamar Mandi</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->tipe_kamarmandi }}</p>
 
-                    <h2 class="text-sm">Dapur</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->dapur }}</p>
+                    <h2 class="text-sm dark:text-white">Dapur</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->dapur }}</p>
 
-                    <h2 class="text-sm">Lain-lain</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->lain }}</p>
+                    <h2 class="text-sm dark:text-white">Lain-lain</h2>
+                    <p class="text-2xl font-semibold mb-6 dark:text-white">{{ $properti->lain }}</p>
                 </div>
             </div>
 
