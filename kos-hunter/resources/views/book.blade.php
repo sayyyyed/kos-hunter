@@ -73,8 +73,13 @@
                     <p class="text-2xl font-semibold mb-6">{{ $properti->nama }}</p>
 
                     <h2 class="text-sm">Narahubung</h2>
-                    <p class="text-2xl font-semibold mb-6">{{ $properti->narahubung ?? 'Tidak tersedia' }}</p>
-
+<p class="text-2xl font-semibold mb-6">
+    @if($properti->admin)
+        {{ $properti->admin->no_telp ?: 'Nomor tidak tersedia' }}
+    @else
+        Admin tidak ditemukan
+    @endif
+</p>
                     <h2 class="text-sm">Tipe</h2>
                     <p class="text-2xl font-semibold mb-6">{{ $properti->tipe }}</p>
 

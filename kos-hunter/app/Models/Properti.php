@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,7 @@ class Properti extends Model
         'tipe_kamarmandi',
         'dapur',
         'lain',
-        'image_url'
+        'image_url',
     ];
 
     public function images()
@@ -30,6 +31,11 @@ class Properti extends Model
     public function bookings()
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
     }
 
     public function calculateAvailableRooms()
